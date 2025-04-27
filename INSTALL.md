@@ -1,16 +1,31 @@
 # Instalação do Repositório
 
-## 1. Importar a Chave GPG
+#### Arch Linux
 ```bash
-curl -sL https://AdamGabriel1.github.io/packages/x86_64/meu-repo-public-key.gpg | sudo pacman-key --add -
-sudo pacman-key --lsign-key CF4CCDE1CA5F144B86C8503637520F5A32155660
-```
-
-## 2. Adicionar o Repositório
-```bash
-echo '[meu-repo]
-SigLevel = Required DatabaseOptional TrustedOnly
-Server = https://AdamGabriel1.github.io/packages/$arch' | sudo tee -a /etc/pacman.conf
+sudo tee -a /etc/pacman.conf << EOF
+[meu-repo-arch]
+SigLevel = Optional TrustAll
+Server = https://seu-usuario.github.io/meu-repo-universal/arch/\$arch
+EOF
 
 sudo pacman -Syu
+```
+
+#### Debian/Ubuntu
+```bash
+echo "deb [trusted=yes] https://seu-usuario.github.io/meu-repo-universal/debian/ stable main" | sudo tee /etc/apt/sources.list.d/meu-repo.list
+sudo apt update
+```
+
+#### Fedora
+```bash
+sudo tee /etc/yum.repos.d/meu-repo.repo << EOF
+[meu-repo-fedora]
+name=Meu Repositório Fedora
+baseurl=https://seu-usuario.github.io/meu-repo-universal/fedora/
+enabled=1
+gpgcheck=0
+EOF
+
+sudo dnf update
 ```
